@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pelargonium"
+name = "paperbush"
 version = "0.1.0"
 description = "Dead easy argument parsing"
 authors = ["trag1c <trag1cdev@yahoo.com>"]
