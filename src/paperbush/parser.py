@@ -202,7 +202,6 @@ def parse_name(arg: str) -> tuple[Argument, str]:
         name_length = stripped_len(arg, name_charset)
         short_name, arg = bisect(arg, name_length)
         full_name_allowed = arg.startswith("|")
-        # arg = arg[1:]
 
     name = ""
     if full_name_allowed:
