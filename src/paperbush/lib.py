@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from argparse import ArgumentParser, Namespace
 from sys import argv
+from typing import Any, cast
 
+from .exceptions import PaperbushError, PaperbushSyntaxError
 from .parser import Argument, parse_argument, split_args
 
 
@@ -28,32 +30,62 @@ class Paperbush:
             parse_argument(arg, infer_name=self._infer_names)
             for arg in split_args(self.pattern)
         ]
-        indexes = extract_indexes(args)
-        print(indexes)
-        indexes = group_indexes(indexes)
-        print(indexes)
-        # TODO
+        for arg in args:
+            if arg == "^":
+                print(arg)
+            else:
+                assert isinstance(arg, Argument)
+                print(arg, arg.type_, arg.action)
+        if not args:
+            raise PaperbushError("cannot create a parser with no arguments")
+        if not are_xors_correctly_placed(args):
+            raise PaperbushSyntaxError("invalid '^' placement")
+        group_indexes = merge_group_indexes(
+            [(i - 1, i + 1) for i, v in enumerate(args) if v == "^"]
+        )
+        print(group_indexes)
+        grouped_args = group_args(args, group_indexes)
+        print(grouped_args)
+        for arg in grouped_args:
+            if isinstance(arg, tuple):
+                group = self._parser.add_mutually_exclusive_group()
+                for argument in arg:
+                    group.add_argument(*argument, **argument.kwargs)
+            else:
+                self._parser.add_argument(*arg, **arg.kwargs)
 
 
-def extract_indexes(args: list[Argument | str]) -> list[tuple[int, int]]:
-    found = 0
-    indexes = []
-    for i, v in enumerate(args):
-        if v == "^":
-            indexes.append((i - 1 + found, i + found))  # FIXME
-            found += 1
-            args.pop(i)
-    return indexes
+def are_xors_correctly_placed(args: list[Argument | str]) -> bool:
+    if "^" in (args[0], args[-1]):
+        return False
+    for i, v in enumerate(args[1:], 1):
+        if v == args[i - 1] == "^":
+            return False
+    return True
 
 
-def group_indexes(indexes: list[tuple[int, int]]) -> list[tuple[int, ...]]:
+def group_args(
+    args: list[Argument | str], group_indexes: list[tuple[int, ...]]
+) -> list[Argument | tuple[Argument, ...]]:
+    grouped: list[Argument | tuple[Argument, ...]] = []
+    indexes = [i for i, v in enumerate(args) if v != "^"]
+    for group in group_indexes:
+        grouped.append(tuple(cast(Argument, args[i]) for i in group))
+        for i in group:
+            indexes.remove(i)
+    for i in indexes:
+        grouped.append(cast(Argument, args[i]))
+    return grouped
+
+
+def merge_group_indexes(indexes: list[tuple[int, int]]) -> list[tuple[int, ...]]:
     if not indexes:
         return indexes
-    grouped = [indexes.pop(0)]
+    grouped: list[tuple[int, ...]] = [indexes.pop(0)]
     for i in indexes:
         last = grouped[-1]
         if i[0] == last[-1]:
-            last = (*last, i[0])
+            grouped[-1] = (*last, i[1])
         else:
             grouped.append(i)
     return grouped
