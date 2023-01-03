@@ -18,7 +18,7 @@ class Paperbush:
         self._translate()
 
     def parse_args(self) -> Namespace:
-        return self.parse(argv)
+        return self.parse(argv[1:])
 
     def parse(self, args: str | list[str]) -> Namespace:
         if isinstance(args, str):
