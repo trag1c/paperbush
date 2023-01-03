@@ -9,12 +9,14 @@ from .parser import Argument, parse_argument, split_args
 
 
 class Paperbush:
-    __slots__ = ("_parser", "_infer_names", "pattern")
+    __slots__ = ("args", "_parser", "_infer_names", "_values", "pattern")
 
-    def __init__(self, pattern: str, *, infer_names: bool = True) -> None:
+    def __init__(self, pattern: str, *values: Any, infer_names: bool = True) -> None:
         self.pattern = pattern
+        self.args: list[Argument | tuple[Argument, ...]] = []
         self._parser = ArgumentParser()
         self._infer_names = infer_names
+        self._values = list(values)
         self._translate()
 
     def parse_args(self) -> Namespace:
@@ -26,16 +28,11 @@ class Paperbush:
         return self._parser.parse_args(args)
 
     def _translate(self) -> None:
-        args = [
-            parse_argument(arg, infer_name=self._infer_names)
+        args: list[Argument | str] = [
+            parse_argument(arg, infer_name=self._infer_names, values=self._values)
             for arg in split_args(self.pattern)
         ]
-        for arg in args:
-            if arg == "^":
-                print(arg)
-            else:
-                assert isinstance(arg, Argument)
-                print(arg, arg.type_, arg.action)
+
         if not args:
             raise PaperbushError("cannot create a parser with no arguments")
         if not are_xors_correctly_placed(args):
@@ -43,9 +40,7 @@ class Paperbush:
         group_indexes = merge_group_indexes(
             [(i - 1, i + 1) for i, v in enumerate(args) if v == "^"]
         )
-        print(group_indexes)
-        grouped_args = group_args(args, group_indexes)
-        print(grouped_args)
+        self.args = grouped_args = group_args(args, group_indexes)
         for arg in grouped_args:
             if isinstance(arg, tuple):
                 group = self._parser.add_mutually_exclusive_group()
