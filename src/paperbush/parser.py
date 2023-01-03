@@ -7,7 +7,6 @@ from typing import Any, Iterator
 from dahlia import dprint
 
 from .exceptions import PaperbushNameError, PaperbushSyntaxError
-from .utils import bisect, is_int, stripped_len
 
 
 TESTS = [
@@ -102,6 +101,28 @@ class Argument:
 
     def __repr__(self) -> str:
         return f"Argument[{self.pattern}]"
+
+
+def bisect(string: str, index: int | str) -> tuple[str, str]:
+    if isinstance(index, str):
+        index = string.index(index)
+    return string[:index], string[index:]
+
+
+def is_int(string: str) -> bool:
+    return bool(string) and all(char in digits for char in string)
+
+
+def is_value_reference(string: str) -> bool:
+    return string[0] == "$" and is_int(string[1:])
+
+
+def slice_until(string: str, target: str) -> str:
+    return string[: string.find(target)]
+
+
+def stripped_len(string: str, chars: str) -> int:
+    return len(string) - len(string.lstrip(chars))
 
 
 def filtered_dict(**kwargs: Any) -> dict[str, Any]:
