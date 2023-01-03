@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from enum import Enum
 from string import ascii_letters, digits
-from typing import Any, Iterator
+from typing import Any, Iterator, Literal
 
 from dahlia import dprint
 
@@ -53,7 +53,7 @@ class Argument:
         required: bool = False,
         default: Any = None,
         choices: Any = None,
-        type_: Any = str,
+        type_: Any = None,
         infer_short: bool = False,
         short: str | None = None,
     ) -> None:
@@ -113,8 +113,16 @@ def is_int(string: str) -> bool:
     return bool(string) and all(char in digits for char in string)
 
 
-def is_value_reference(string: str) -> bool:
+def evaluate(string: str, values: list[Any]) -> Any:
+    return values[value_ref(string)] if is_value_ref(string) else eval(string)
+
+
+def is_value_ref(string: str) -> bool:
     return string[0] == "$" and is_int(string[1:])
+
+
+def value_ref(string: str) -> int:
+    return int(string[1:])
 
 
 def slice_until(string: str, target: str) -> str:
@@ -173,9 +181,13 @@ def split_args(string: str) -> list[str]:
     return out
 
 
-def parse_argument(string: str, *, infer_name: bool = True) -> Argument | str:
+def parse_argument(
+    string: str, *, infer_name: bool = True, values: list[Any] | None = None
+) -> Argument | Literal["^"]:
     if string == "^":
         return string
+
+    values = values or []
 
     argument, string = parse_name(string)
     argument.infer_short = infer_name
@@ -197,10 +209,10 @@ def parse_argument(string: str, *, infer_name: bool = True) -> Argument | str:
     if string[0] not in ":=":
         raise PaperbushSyntaxError
 
-    string, argument = parse_properties(string, argument)
+    string, argument = parse_properties(string, argument, values)
 
     if string:
-        argument.default = string
+        argument.default = evaluate(string, values)
 
     return argument
 
@@ -222,20 +234,23 @@ def parse_name(arg: str) -> tuple[Argument, str]:
     if lh == 1:
         name_length = stripped_len(arg, name_charset)
         short_name, arg = bisect(arg, name_length)
-        full_name_allowed = arg.startswith("|")
+        if full_name_allowed := arg.startswith("|"):
+            arg = arg[1:]
+    print("sn", short_name)
 
     name = ""
     if full_name_allowed:
         name_length = stripped_len(arg, name_charset)
         name, arg = bisect(arg, name_length)
 
-    print([pattern, short_name, name, arg])
     if not (short_name or name):
         raise PaperbushNameError("empty option name")
     return Argument(name=name, short=short_name, pattern=pattern), arg
 
 
-def parse_properties(string: str, argument: Argument) -> tuple[str, Argument]:
+def parse_properties(
+    string: str, argument: Argument, values: list[Any]
+) -> tuple[str, Argument]:
     type_: str | None = None
     nargs: str | int | None = None
     choices: str | None = None
@@ -270,13 +285,13 @@ def parse_properties(string: str, argument: Argument) -> tuple[str, Argument]:
             break
 
     if type_ is not None:
-        argument.type_ = type_
+        argument.type_ = evaluate(type_, values)
 
     if nargs is not None:
         argument.nargs = nargs
 
     if choices is not None:
-        argument.choices = choices
+        argument.choices = evaluate(choices, values)
 
     return string, argument
 
