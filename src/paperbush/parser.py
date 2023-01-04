@@ -71,6 +71,7 @@ class Argument:
             nargs=self.nargs,
             type=self.type_,
             default=self.default,
+            choices=self.choices,
         )
         if self.action:
             kwargs["action"] = self.action.value
