@@ -215,14 +215,13 @@ def parse_name(arg: str) -> tuple[Argument, str]:
     if lh not in range(3):
         raise PaperbushNameError("invalid number of leading hyphens")
 
-    short_name = ""
+    short_name = name = ""
     if lh == 1:
         name_length = stripped_len(arg, name_charset)
         short_name, arg = bisect(arg, name_length)
         if full_name_allowed := arg.startswith("|"):
             arg = arg[1:]
 
-    name = ""
     if full_name_allowed:
         name_length = stripped_len(arg, name_charset)
         name, arg = bisect(arg, name_length)
