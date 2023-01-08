@@ -14,7 +14,7 @@ class Paperbush:
     def __init__(self, pattern: str, *values: Any, infer_names: bool = True) -> None:
         self.pattern = pattern
         self.args: list[Argument | tuple[Argument, ...]] = []
-        self._parser = ArgumentParser()
+        self._parser = ArgumentParser(add_help=False)
         self._infer_names = infer_names
         self._values = list(values)
         self._translate()
