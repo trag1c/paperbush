@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from enum import Enum
 from string import ascii_letters, digits
-from typing import Any, Iterator
+from typing import Any, Container, Iterator
 
 from .exceptions import PaperbushNameError, PaperbushSyntaxError
 
@@ -35,7 +35,7 @@ class Argument:
         action: Action | None = None,
         required: bool | None = None,
         default: Any = None,
-        choices: Any = None,
+        choices: Container[Any] | None = None,
         type_: Any = None,
         infer_short: bool = False,
         short: str | None = None,
