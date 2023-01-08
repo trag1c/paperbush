@@ -238,9 +238,7 @@ def parse_properties(
     nargs: str | int | None = None
     choices: str | None = None
 
-    while True:
-        if not string:
-            break
+    while string:
         first, string = bisect(string, 1)
         if first == "=":
             break
