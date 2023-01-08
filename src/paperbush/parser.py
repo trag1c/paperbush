@@ -160,10 +160,8 @@ def split_args(string: str) -> list[str]:
             out.append(f)
         else:
             temp = f
-    else:
-        if temp:
-            if are_matching_brackets(temp):
-                out.append(temp)
+    if temp and are_matching_brackets(temp):
+        out.append(temp)
     return out
 
 
