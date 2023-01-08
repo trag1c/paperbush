@@ -182,7 +182,7 @@ def parse_argument(
         return argument
 
     if string[0] not in ":+=!":
-        raise PaperbushSyntaxError(string)
+        raise PaperbushSyntaxError
 
     count, argument.required, string = parse_togglables(string)
     if count:
