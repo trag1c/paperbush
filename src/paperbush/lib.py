@@ -22,9 +22,7 @@ class Paperbush:
     def parse_args(self) -> Namespace:
         return self.parse(argv[1:])
 
-    def parse(self, args: str | list[str]) -> Namespace:
-        if isinstance(args, str):
-            args = args.split()
+    def parse(self, args: list[str]) -> Namespace:
         return self._parser.parse_args(args)
 
     def _translate(self) -> None:
