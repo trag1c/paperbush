@@ -42,12 +42,14 @@ class Paperbush:
             [(i - 1, i + 1) for i, v in enumerate(args) if v == "^"]
         )
         self.args = grouped_args = group_args(args, group_indexes)
-        for arg in grouped_args:
-            if isinstance(arg, tuple):
+        for arg_or_args in grouped_args:
+            if isinstance(arg_or_args, tuple):
+                args_ = arg_or_args
                 group = self._parser.add_mutually_exclusive_group()
-                for argument in arg:
-                    group.add_argument(*argument, **argument.kwargs)
+                for arg in args_:
+                    group.add_argument(*arg, **arg.kwargs)
             else:
+                arg = arg_or_args
                 self._parser.add_argument(*arg, **arg.kwargs)
 
 
