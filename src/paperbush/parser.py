@@ -182,7 +182,9 @@ def parse_argument(
         return argument
 
     if string[0] not in ":+=!":
-        raise PaperbushSyntaxError
+        raise PaperbushSyntaxError(
+            f"expected one of ':', '++', '!', or '=', found {string[0]!r} instead"
+        )
 
     count, argument.required, string = parse_togglables(string)
     if count:
@@ -192,7 +194,9 @@ def parse_argument(
         return argument
 
     if string[0] not in ":=":
-        raise PaperbushSyntaxError
+        raise PaperbushSyntaxError(
+            f"expected one of ':' or '=', found {string[0]!r} instead"
+        )
 
     string, argument = parse_properties(string, argument, values)
 
