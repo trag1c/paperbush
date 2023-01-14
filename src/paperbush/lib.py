@@ -47,6 +47,9 @@ class Paperbush:
                 args_ = arg_or_args
                 group = self._parser.add_mutually_exclusive_group()
                 for arg in args_:
+                    if arg.required:
+                        group.required = True
+                        arg.required = False
                     group.add_argument(*arg, **arg.kwargs)
             else:
                 arg = arg_or_args
