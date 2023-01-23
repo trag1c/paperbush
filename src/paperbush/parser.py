@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
+from re import match
 from string import ascii_letters, digits
 from typing import Any, Container, Iterator
 
@@ -186,7 +187,8 @@ def parse_argument(
             f"expected one of ':', '++', '!', or '=', found {string[0]!r} instead"
         )
 
-    count, argument.required, string = parse_togglables(string)
+    count, required, string = parse_togglables(string)
+    argument.required = required or None
     if count:
         argument.action = Action.COUNT
 
@@ -281,17 +283,8 @@ def parse_properties(
     return string, argument
 
 
-def parse_togglables(string: str) -> tuple[bool, bool | None, str]:
-    if string[:3] in ("++!", "!++"):
-        return True, True, string[3:]
-
-    if string.startswith("++"):
-        string = string[2:]
-        if not string:
-            return True, None, string
-
-    if string.startswith("!"):
-        string = string[1:]
-        return False, True, string
-
-    return False, None, string
+def parse_togglables(string: str) -> tuple[bool, bool, str]:
+    m = match(r"^(!)?(\+\+)?(!)?", string[:3])
+    if m is None:
+        return False, False, string
+    return bool(m.group(2)), bool(m.group(1) or m.group(3)), string[len(m.group()):]
