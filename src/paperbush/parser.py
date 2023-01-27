@@ -284,7 +284,7 @@ def parse_properties(
 
 
 def parse_togglables(string: str) -> tuple[bool, bool, str]:
-    m = match(r"^(!)?(\+\+)?(!)?", string[:3])
+    m = match(r"^(!)?(\+\+)?(?<!!)(!)?", string[:3])
     if m is None:
         return False, False, string
     return bool(m.group(2)), bool(m.group(1) or m.group(3)), string[len(m.group()):]
