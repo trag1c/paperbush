@@ -241,4 +241,51 @@ Default argument values are set at their very end, preceded by the `=` sign:
 
 
 ## Value references
+
+Defining a parser using a single string has one major issue: working with
+variables. Since it's all a string, passing the variable name would need
+Paperbush to manually evaluate it when parsing, which would require the user
+to pass `globals()`, which doesn't look the best. Also evaluating the variable
+on the spot using an f-string doesn't work for most types and it quite often
+comes with copying data.
+
+Therefore Paperbush uses value references, which let you refer to variables
+without using them directly in the string, which is both a speed and memory
+improvement (even though they're not necessarily relevant for an argument
+parser).
+
+Value references are marked with `$n`. All of these parser definitions are equivalent:
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    options = list(range(10_000))
+    parser = ArgumentParser()
+    parser.add_argument("-o", "--option", choices=options)
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    options = list(range(10_000))
+    parser = Paperbush(f"--option:{options}")
+    # we're lucky that str(options) is valid syntax
+    # this takes ~25 seconds
+    ```
+
+=== "Paperbush (with value references)"
+
+    ```py
+    from paperbush import Paperbush
+    options = list(range(10_000))
+    parser = Paperbush("--option:$0", options)
+    # this takes 0.002s
+    # (~14K times faster for a very extreme case)
+    ```
+
+*(the above runtimes were measured on a MacBook Air M1)*
+
+
 ## Mutually exclusive groups
