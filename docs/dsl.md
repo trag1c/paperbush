@@ -121,6 +121,23 @@ optional arguments in `argparse`:
     ```
 
 ## Required arguments
+Arguments can be made mandatory by putting a `!` after their name.
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("-o", "--output", required=True)
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--output!")
+    ```
+
 ## Number of arguments
 ## Choices
 ## Default values
