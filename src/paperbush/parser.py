@@ -44,9 +44,9 @@ class Argument:
         self._action = None
         if not (name or short):
             raise PaperbushNameError("missing argument name")
+        self.default = default
         self.action = action
         self.choices = choices
-        self.default = default
         self.infer_short = infer_short
         self.name = name
         self.nargs = nargs
