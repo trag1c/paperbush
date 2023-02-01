@@ -4,7 +4,9 @@ This page describes how to use the Paperbush custom language. Considering the
 library is built on top of `argparse`, this page will contain many comparions
 to that library.
 
+
 ## Positional arguments
+
 Positional arguments are defined simply by specifying their names with no
 leading hyphens.
 
@@ -22,6 +24,7 @@ leading hyphens.
     from paperbush import Paperbush
     parser = Paperbush("echo")
     ```
+
 
 ## Optional arguments
 
@@ -82,8 +85,9 @@ the `infer_names` parameter disabled.
 
 
 ## Argument type
+
 Arguments can have their type specified by appending a colon followed by the
-type name to the argument name (`name:type`). The type name has to be a valid
+type name to the argument (`name:type`). The type name has to be a valid
 variable name.
 
 === "argparse"
@@ -120,7 +124,9 @@ optional arguments in `argparse`:
     parser = Paperbush("--verbosity:str")
     ```
 
+
 ## Required arguments
+
 Arguments can be made mandatory by putting a `!` after their name.
 
 === "argparse"
@@ -137,6 +143,7 @@ Arguments can be made mandatory by putting a `!` after their name.
     from paperbush import Paperbush
     parser = Paperbush("--output!")
     ```
+
 
 ## Number of arguments
 ## Choices
