@@ -168,6 +168,30 @@ type, by following our argument with a colon and then either an integer,
 
 
 ## Choices
+You can restrict what values an argument can accept by specifying `choices`.
+They're added the same way as `type` or `nargs`, by adding an iterable
+after a colon:
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("-v", "--verbosity", type=int, choices=[0, 1, 2])
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--verbosity:int:[0, 1, 2]")
+    ```
+
+!!! note
+    The order doesn't matter, `--verbosity:[0, 1, 2]:int` is as valid as
+    `--verbosity:int:[0, 1, 2]`
+
+
 ## Counting
 ## Default values
 ## Value references
