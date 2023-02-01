@@ -220,5 +220,25 @@ with `++`. Paperbush also sets the default to `0` for convenience:
 
 
 ## Default values
+
+Default argument values are set at their very end, preceded by the `=` sign:
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("-b", "--base", type=float, required=True)
+    parser.add_argument("-e", "--exponent", type=float, default=2.0)
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--base!:float --exponent:float=2.0")
+    ```
+
+
 ## Value references
 ## Mutually exclusive groups
