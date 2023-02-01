@@ -4,6 +4,7 @@ repo_name: trag1c/paperbush
 copyright: Copyright &copy; 2023 trag1c
 nav:
   - Home: index.md
+  - Examples: examples.md
   - API Reference: api.md
   - Language Reference: dsl.md
 theme:
