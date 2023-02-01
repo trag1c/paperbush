@@ -146,6 +146,27 @@ Arguments can be made mandatory by putting a `!` after their name.
 
 
 ## Number of arguments
+The number of arguments (nargs) is specified the same way as the argument
+type, by following our argument with a colon and then either an integer,
+`?`, `*`, or `+`:
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("-f", "--foo", nargs=3)
+    parser.add_argument("-b", "--bar", nargs="*")
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--foo:3 --bar:*")
+    ```
+
+
 ## Choices
 ## Counting
 ## Default values
