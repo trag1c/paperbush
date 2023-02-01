@@ -8,7 +8,7 @@ Paperbush(pattern: str, *values: Any, infer_names: bool = True)
 Creates a Paperbush parser; takes a string pattern written in the [Paperbush custom language](dsl.md), an arbitrary number of [reference values](dsl.md#value-references), and the `infer_names` flag which specifies whether arguments with only long names should have the short names inferred (`True` by default).
 
 !!! warning
-    Keeping `infer_names` true can lead to collisions for arguments starting with the same letter, e.g. `Paperbush("--fix --force")`
+    Keeping `infer_names` true is going to cause name collisions between arguments which start with the same letter (for example `Paperbush("--fix --force")`).
 
 ## Paperbush.parse
 
