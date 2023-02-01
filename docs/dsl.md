@@ -2,7 +2,10 @@
 
 ## Basics
 ## Counting
-## Default values
 ## Required arguments
 ## Number of arguments
+## Argument type
+## Choices
+## Default values
+## Value references
 ## Mutually exclusive groups
