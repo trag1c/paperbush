@@ -307,4 +307,26 @@ Another example of using value references:
     Because of implementation details, value references currently can only be
     used for choices and default values.
 
+
 ## Mutually exclusive groups
+
+Mutually exclusive groups are made by XORing 2 or more arguments:
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("x", type=int)
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-v", "--verbose", action="store_true")
+    group.add_argument("-s", "--silent", action="store_true")
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("x:int --verbose ^ --silent")
+    ```
+
