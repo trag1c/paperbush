@@ -146,6 +146,7 @@ Arguments can be made mandatory by putting a `!` after their name.
 
 
 ## Number of arguments
+
 The number of arguments (nargs) is specified the same way as the argument
 type, by following our argument with a colon and then either an integer,
 `?`, `*`, or `+`:
@@ -168,6 +169,7 @@ type, by following our argument with a colon and then either an integer,
 
 
 ## Choices
+
 You can restrict what values an argument can accept by specifying `choices`.
 They're added the same way as `type` or `nargs`, by adding an iterable
 after a colon:
