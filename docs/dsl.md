@@ -140,6 +140,7 @@ Arguments can be made mandatory by putting a `!` after their name.
 
 ## Number of arguments
 ## Choices
+## Counting
 ## Default values
 ## Value references
 ## Mutually exclusive groups
