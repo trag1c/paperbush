@@ -36,8 +36,8 @@ Optional arguments are defined with leading hyphens:
 If you wish to provide both names, they have to be separated with a `|`.
 
 However, Paperbush does short name inference by default, which means that
-you only need to specify the long name if the short name is the first letter
-of the long name.
+you only need to specify the long name when the short name would be the first
+letter of the long name.
 
 Also, bare optional arguments (without [type specification](#argument-type) or
 [default values](#default-values) for example) have their action set to
@@ -171,7 +171,7 @@ type, by following our argument with a colon and then either an integer,
 ## Choices
 
 You can restrict what values an argument can accept by specifying `choices`.
-They're added the same way as `type` or `nargs`, by adding an iterable
+They're added the same way as `type` or `nargs`, by adding a container
 after a colon:
 
 === "argparse"
@@ -246,7 +246,7 @@ Defining a parser using a single string has one major issue: working with
 variables. Since it's all a string, passing the variable name would need
 Paperbush to manually evaluate it when parsing, which would require the user
 to pass `globals()`, which doesn't look the best. Also evaluating the variable
-on the spot using an f-string doesn't work for most types and it quite often
+on the spot (e.g. using an f-string) doesn't work for most types and it quite often
 comes with copying data.
 
 Therefore Paperbush uses value references, which let you refer to variables
