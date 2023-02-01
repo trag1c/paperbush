@@ -6,6 +6,24 @@ The following page shows a few examples comparing Paperbush to `argparse`.
 
     ```py
     from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("-b", "--base", type=float, required=True)
+    parser.add_argument("-e", "--exponent", type=float, default=2.0)
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--base!:float --exponent:float=2.0")
+    ```
+
+---
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
 
     parser = ArgumentParser()
     group = parser.add_mutually_exclusive_group()
