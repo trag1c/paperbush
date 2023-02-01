@@ -81,9 +81,47 @@ the `infer_names` parameter disabled.
     ```
 
 
+## Argument type
+Arguments can have their type specified by appending a colon followed by the
+type name to the argument name (`name:type`). The type name has to be a valid
+variable name.
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("square", type=int)
+    parser.add_argument("--verbosity", type=int)
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("square:int --verbosity:int")
+    ```
+
+By setting the default type (`str`) you can get the original behavior of
+optional arguments in `argparse`:
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("--verbosity")
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--verbosity:str")
+    ```
+
 ## Required arguments
 ## Number of arguments
-## Argument type
 ## Choices
 ## Default values
 ## Value references
