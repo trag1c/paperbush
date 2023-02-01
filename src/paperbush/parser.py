@@ -15,7 +15,7 @@ class Action(Enum):
 
 class Argument:
     __slots__ = (
-        "action",
+        "_action",
         "choices",
         "default",
         "infer_short",
@@ -41,6 +41,7 @@ class Argument:
         infer_short: bool = False,
         short: str | None = None,
     ) -> None:
+        self._action = None
         if not (name or short):
             raise PaperbushNameError("missing argument name")
         self.action = action
@@ -53,6 +54,16 @@ class Argument:
         self.required = required
         self._short = short
         self.type_ = type_
+
+    @property
+    def action(self) -> Action | None:
+        return self._action
+
+    @action.setter
+    def action(self, value: Action | None) -> None:
+        if self.default is None and value is Action.COUNT:
+            self.default = 0
+        self._action = value
 
     @property
     def short(self) -> str | None:

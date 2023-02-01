@@ -197,14 +197,14 @@ after a colon:
 ## Counting
 
 Arguments can have the "count" action set by following the argument name
-with `++`:
+with `++`. Paperbush also sets the default to `0` for convenience:
 
 === "argparse"
 
     ```py
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument("-v", "--verbose", action="count")
+    parser.add_argument("-v", "--verbose", action="count", default=0)
     ```
 
 === "Paperbush"
