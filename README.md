@@ -12,9 +12,9 @@ $ pip install paperbush
 ## Features
 - short name inferrence
 - mutually exclusive groups
-- choices
+- choices and the count action
 - default values
-- required args
+- required arguments
 - type conversion
 
 ## Known Limitations

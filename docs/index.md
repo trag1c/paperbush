@@ -5,9 +5,9 @@ Paperbush is a dead easy argument parsing tool that simplifies the process of cr
 ## Features
 - short name inferrence
 - mutually exclusive groups
-- choices
+- choices and the count action
 - default values
-- required args
+- required arguments
 - type conversion
 
 ## Known Limitations
