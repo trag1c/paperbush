@@ -2,7 +2,7 @@
 
 Paperbush is a dead easy argument parsing tool that simplifies the process of creating command-line argument parsers in Python. With Paperbush, you can define your parser in just a single line of code using a custom built-in language, which is then translated directly into the built-in `argparse` module equivalent. This means that moving to Paperbush is just a matter of changing the parser definition, as `Paperbush.parse_args()` returns an `argparse.Namespace` object.
 
-## Features 🌟
+## Features
 - short name inferrence
 - mutually exclusive groups
 - choices
@@ -10,11 +10,11 @@ Paperbush is a dead easy argument parsing tool that simplifies the process of cr
 - required args
 - type conversion
 
-## Known Limitations 🚫
+## Known Limitations
 - no help messages
 - no subparser support
 
-## Examples 💡
+## Examples
 ```py
 from argparse import ArgumentParser
 
@@ -45,5 +45,5 @@ from paperbush import Paperbush
 parser = Paperbush("string --verbosity++")
 ```
 
-## License 📃
+## License
 Paperbush is licensed under the MIT License.
