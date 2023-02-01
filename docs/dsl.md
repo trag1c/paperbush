@@ -287,5 +287,24 @@ Value references are marked with `$n`. All of these parser definitions are equiv
 
 *(the above runtimes were measured on a MacBook Air M1)*
 
+Another example of using value references:
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--verbose:int:1:(0, 1, 2, 3)=0")
+    ```
+
+=== "Paperbush (with value references)"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--verbose:int:1:$0=$1", (0, 1, 2, 3), 0)
+    ```
+
+!!! note
+    Because of implementation details, value references currently can only be
+    used for choices and default values.
 
 ## Mutually exclusive groups
