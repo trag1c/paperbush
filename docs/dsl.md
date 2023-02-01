@@ -191,10 +191,34 @@ after a colon:
 
 !!! note
     The order doesn't matter, `--verbosity:[0, 1, 2]:int` is as valid as
-    `--verbosity:int:[0, 1, 2]`
+    `--verbosity:int:[0, 1, 2]`.
 
 
 ## Counting
+
+Arguments can have the "count" action set by following the argument name
+with `++`:
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("-v", "--verbose", action="count")
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--verbose++")
+    ```
+
+!!! note
+    Just like with the "colon options", there's no difference between
+    `--verbose!++` and `--verbose++!`.
+
+
 ## Default values
 ## Value references
 ## Mutually exclusive groups
