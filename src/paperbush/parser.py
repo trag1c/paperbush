@@ -188,9 +188,13 @@ def parse_argument(
     argument, string = parse_name(string)
     argument.infer_short = infer_name
 
-    if not string:
+    if string in "!":
+        req = string == "!"
         if stripped_len(argument.name or "", "-"):
             argument.action = Action.STORE_TRUE
+            argument.required = req
+        elif req:
+            raise PaperbushSyntaxError("cannot make a positional argument required")
         return argument
 
     if string[0] not in ":+=!":
