@@ -246,15 +246,16 @@ Defining a parser using a single string has one major issue: working with
 variables. Since it's all a string, passing the variable name would need
 Paperbush to manually evaluate it when parsing, which would require the user
 to pass `globals()`, which doesn't look the best. Also evaluating the variable
-on the spot (e.g. using an f-string) doesn't work for most types and it quite often
-comes with copying data.
+on the spot (e.g. using an f-string) doesn't work for most types and it quite
+often comes with copying data.
 
 Therefore Paperbush uses value references, which let you refer to variables
 without using them directly in the string, which is both a speed and memory
 improvement (even though they're not necessarily relevant for an argument
 parser).
 
-Value references are marked with `$n`. All of these parser definitions are equivalent:
+Value references are marked with `$n`. All of these parser definitions are
+equivalent:
 
 === "argparse"
 
@@ -330,3 +331,25 @@ Mutually exclusive groups are made by XORing 2 or more arguments:
     parser = Paperbush("x:int --verbose ^ --silent")
     ```
 
+To indicate that at least one of the mutually exclusive arguments is required,
+at least one of them must be marked as required itself:
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument("-n", "--name")
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-f", "--foo", action="store_true")
+    group.add_argument("-b", "--bar", action="store_true")
+    group.add_argument("-z", "--baz", action="store_true")
+    parser.add_argument("-o", "--output")
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+    parser = Paperbush("--name:str --foo! ^ --bar ^ -z|--baz --output:str")
+    ```
