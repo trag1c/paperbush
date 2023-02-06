@@ -124,6 +124,9 @@ optional arguments in `argparse`:
     parser = Paperbush("--verbosity:str")
     ```
 
+!!! note
+    Currently only built-in types are supported.
+
 
 ## Required arguments
 
@@ -134,7 +137,7 @@ Arguments can be made mandatory by putting a `!` after their name.
     ```py
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument("-o", "--output", required=True)
+    parser.add_argument("-o", "--output", action="store_true", required=True)
     ```
 
 === "Paperbush"
