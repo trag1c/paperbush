@@ -41,7 +41,7 @@ letter of the long name.
 
 Also, bare optional arguments (without [type specification](#argument-type) or
 [default values](#default-values) for example) have their action set to
-`store_true`. This is the only case where this behavior occurs.
+`store_true`. This is the only case[^1] where this behavior occurs.
 
 === "argparse"
 
@@ -82,6 +82,8 @@ the `infer_names` parameter disabled.
     from paperbush import Paperbush
     parser = Paperbush("--verbose", infer_names=False)
     ```
+
+[^1]: Except for required arguments, for compatibility with [mutually exclusive groups](#mutually-exclusive-groups).
 
 
 ## Argument type
