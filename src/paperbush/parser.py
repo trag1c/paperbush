@@ -263,7 +263,7 @@ def parse_properties(
         first, string = bisect(string, 1)
         if first == "=":
             break
-        if len({type_, nargs, choices, None}) == 4:
+        if None not in (type_, nargs, choices):
             raise PaperbushSyntaxError("too many properties")
 
         for sep in ":=":
