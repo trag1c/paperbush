@@ -73,3 +73,27 @@ The following page shows a few examples comparing Paperbush to `argparse`.
         UNSET
     )
     ```
+
+---
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-m")
+    group.add_argument("-c")
+    parser.add_argument("-O", action="count")
+    parser.add_argument("-q", action="store_true")
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+
+    parser = Paperbush("-m:str ^ -c:str -O++ -q")
+    ```
+
