@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+from collections.abc import Container, Iterator
 from enum import Enum
 from re import match
 from string import ascii_letters, digits
-from typing import Any, Container, Iterator
+from typing import Any
 
 from .exceptions import PaperbushNameError, PaperbushSyntaxError
 
