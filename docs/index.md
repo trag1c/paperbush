@@ -11,8 +11,10 @@ Paperbush is a dead easy argument parsing tool that simplifies the process of cr
 - type conversion
 
 ## Known Limitations
-- no help messages
-- no subparser support
+Currently Paperbush has no support for:
+- aliases
+- help messages
+- subparsers
 
 ## License
 Paperbush is licensed under the MIT License.
