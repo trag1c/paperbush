@@ -117,5 +117,5 @@ The following page shows a few examples comparing Paperbush to `argparse`.
     import sys
     from paperbush import Paperbush
 
-    parser = Paperbush("--inputs:* --smart --output!:str=$0", sys.stdout)
+    parser = Paperbush("--inputs:* --smart --output=$0", sys.stdout)
     ```
