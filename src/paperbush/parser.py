@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+from collections.abc import Container, Iterator
 from enum import Enum
 from re import match
 from string import ascii_letters, digits
-from typing import Any, Container, Iterator
+from typing import Any
 
 from .exceptions import PaperbushNameError, PaperbushSyntaxError
 
@@ -15,7 +16,7 @@ class Action(Enum):
 
 class Argument:
     __slots__ = (
-        "action",
+        "_action",
         "choices",
         "default",
         "infer_short",
@@ -41,11 +42,12 @@ class Argument:
         infer_short: bool = False,
         short: str | None = None,
     ) -> None:
+        self._action = None
         if not (name or short):
             raise PaperbushNameError("missing argument name")
+        self.default = default
         self.action = action
         self.choices = choices
-        self.default = default
         self.infer_short = infer_short
         self.name = name
         self.nargs = nargs
@@ -53,6 +55,16 @@ class Argument:
         self.required = required
         self._short = short
         self.type_ = type_
+
+    @property
+    def action(self) -> Action | None:
+        return self._action
+
+    @action.setter
+    def action(self, value: Action | None) -> None:
+        if self.default is None and value is Action.COUNT:
+            self.default = 0
+        self._action = value
 
     @property
     def short(self) -> str | None:
@@ -150,17 +162,22 @@ def split_args(string: str) -> list[str]:
     frags = string.split()
     out = []
     temp = ""
-    for f in frags:
+    f = frags.pop(0)
+    while frags or f:
         if temp:
             if are_matching_brackets(temp):
                 out.append(temp)
                 temp = ""
+                continue
             else:
                 temp += " " + f
         elif are_matching_brackets(f):
             out.append(f)
         else:
             temp = f
+        if not frags:
+            break
+        f = frags.pop(0)
     if temp and are_matching_brackets(temp):
         out.append(temp)
     return out
@@ -177,9 +194,13 @@ def parse_argument(
     argument, string = parse_name(string)
     argument.infer_short = infer_name
 
-    if not string:
+    if string in "!":
+        req = string == "!"
         if stripped_len(argument.name or "", "-"):
             argument.action = Action.STORE_TRUE
+            argument.required = req
+        elif req:
+            raise PaperbushSyntaxError("cannot make a positional argument required")
         return argument
 
     if string[0] not in ":+=!":
@@ -248,7 +269,7 @@ def parse_properties(
         first, string = bisect(string, 1)
         if first == "=":
             break
-        if len({type_, nargs, choices, None}) == 4:
+        if None not in (type_, nargs, choices):
             raise PaperbushSyntaxError("too many properties")
 
         for sep in ":=":

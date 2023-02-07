@@ -9,7 +9,7 @@ $ pip install paperbush
 ```
 (Some systems may require you to use `pip3`, `python -m pip`, or `py -m pip`)
 
-## [Examples](https://trag1c.github.io/paperbush)
+## [Examples](examples.md)
 
 ## Features
 - short name inferrence
