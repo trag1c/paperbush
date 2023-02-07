@@ -97,3 +97,25 @@ The following page shows a few examples comparing Paperbush to `argparse`.
     parser = Paperbush("-m:str ^ -c:str -O++ -q")
     ```
 
+---
+
+=== "argparse"
+
+    ```py
+    import sys
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument("-i", "--inputs", nargs="*")
+    parser.add_argument("-s", "--smart", action="store_true")
+    parser.add_argument("-o", "--output", default=sys.stdout)
+    ```
+
+=== "Paperbush"
+
+    ```py
+    import sys
+    from paperbush import Paperbush
+
+    parser = Paperbush("--inputs:* --smart --output!:str=$0", sys.stdout)
+    ```
