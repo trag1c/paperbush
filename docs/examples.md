@@ -6,6 +6,7 @@ The following page shows a few examples comparing Paperbush to `argparse`.
 
     ```py
     from argparse import ArgumentParser
+
     parser = ArgumentParser()
     parser.add_argument("-b", "--base", type=float, required=True)
     parser.add_argument("-e", "--exponent", type=float, default=2.0)
@@ -15,6 +16,7 @@ The following page shows a few examples comparing Paperbush to `argparse`.
 
     ```py
     from paperbush import Paperbush
+
     parser = Paperbush("--base!:float --exponent:float=2.0")
     ```
 
