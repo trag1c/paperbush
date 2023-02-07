@@ -28,7 +28,7 @@ The following page shows a few examples comparing Paperbush to `argparse`.
     parser = ArgumentParser()
     group = parser.add_mutually_exclusive_group()
     parser.add_argument("x", type=int)
-    parser.add_argument("y", type=int, default=0)
+    parser.add_argument("y", type=int)
     group.add_argument("-v", "--verbose", action="count", default=0)
     group.add_argument("-q", "--quiet", action="store_true")
     ```
@@ -38,7 +38,7 @@ The following page shows a few examples comparing Paperbush to `argparse`.
     ```py
     from paperbush import Paperbush
 
-    parser = Paperbush("x:int y:int=0 --verbose++ ^ --quiet")
+    parser = Paperbush("x:int y:int --verbose++ ^ --quiet")
     ```
 
 ---
