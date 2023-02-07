@@ -16,7 +16,7 @@ Creates a Paperbush parser; takes a string pattern written in the [Paperbush cus
 Paperbush.parse(args: str | list[str]) -> argparse.Namespace
 ```
 
-Parses command line arguments using the predefined pattern and returns an [`argparse.Namespace`](https://docs.python.org/3/library/argparse.html#argparse.Namespace) object. Accepts either a list of strings or a single string which is split with [`shlex.split`](https://docs.python.org/3/library/shlex.html#shlex.split)).
+Parses command line arguments using the predefined pattern and returns an [`argparse.Namespace`](https://docs.python.org/3/library/argparse.html#argparse.Namespace) object. Accepts either a list of strings or a single string (which is split with [`shlex.split`](https://docs.python.org/3/library/shlex.html#shlex.split)).
 
 
 ## Paperbush.parse_args
