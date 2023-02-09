@@ -10,6 +10,14 @@ from .parser import Argument, parse_argument, split_args
 
 
 class Paperbush:
+    """
+    A Paperbush parser; takes a string pattern written in the\
+    [Paperbush custom language](https://trag1c.github.io/paperbush/dsl/),\
+    an arbitrary number of\
+    [reference values](https://trag1c.github.io/paperbush/dsl/#value-references),
+    and the `infer_names` flag which specifies whether arguments with only long names
+    should have the short names inferred (`True` by default).
+    """
     __slots__ = ("args", "_parser", "_infer_names", "_values", "pattern")
 
     def __init__(self, pattern: str, *values: Any, infer_names: bool = True) -> None:
@@ -21,9 +29,17 @@ class Paperbush:
         self._translate()
 
     def parse_args(self) -> Namespace:
+        """
+        Equivalent to `Paperbush.parse(sys.argv)`.
+        """
         return self.parse(argv[1:])
 
     def parse(self, args: str | list[str]) -> Namespace:
+        """
+        Parses command line arguments using the predefined pattern and returns an
+        `argparse.Namespace` object. Accepts either a list of strings or a single string
+        (which is split with `shlex.split`).
+        """
         if isinstance(args, str):
             args = split(args)
         return self._parser.parse_args(args)
