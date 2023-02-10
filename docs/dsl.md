@@ -83,7 +83,8 @@ the `infer_names` parameter disabled.
     parser = Paperbush("--verbose", infer_names=False)
     ```
 
-[^1]: Except for required arguments, for compatibility with [mutually exclusive groups](#mutually-exclusive-groups).
+[^1]: Except for required arguments, for compatibility with
+[mutually exclusive groups](#mutually-exclusive-groups).
 
 
 ## Argument type
