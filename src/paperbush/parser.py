@@ -167,8 +167,7 @@ def split_args(string: str) -> list[str]:
                 out.append(temp)
                 temp = ""
                 continue
-            else:
-                temp += " " + f
+            temp += " " + f
         elif are_matching_brackets(f):
             out.append(f)
         else:

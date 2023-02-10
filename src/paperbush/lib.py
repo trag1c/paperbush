@@ -18,6 +18,7 @@ class Paperbush:
     and the `infer_names` flag which specifies whether arguments with only long names
     should have the short names inferred (`True` by default).
     """
+
     __slots__ = ("args", "_parser", "_infer_names", "_values", "pattern")
 
     def __init__(self, pattern: str, *values: Any, infer_names: bool = True) -> None:
@@ -75,10 +76,7 @@ class Paperbush:
 def are_xors_correctly_placed(args: list[Argument | str]) -> bool:
     if "^" in (args[0], args[-1]):
         return False
-    for i, v in enumerate(args[1:], 1):
-        if v == args[i - 1] == "^":
-            return False
-    return True
+    return all(not (v == args[i - 1] == "^") for i, v in enumerate(args[1:], 1))
 
 
 def group_args(
