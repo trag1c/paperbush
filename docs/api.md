@@ -5,7 +5,7 @@ Paperbush's public API consists of just one class with 2 methods.
 ```py
 Paperbush(pattern: str, *values: Any, infer_names: bool = True)
 ```
-Creates a Paperbush parser; takes a string pattern (or a list of patterns)
+Creates a Paperbush parser; takes a string pattern (or an iterable of patterns)
 written in the [Paperbush custom language](dsl.md), an arbitrary number of
 [reference values](dsl.md#value-references), and the `infer_names` flag whic
 specifies whether arguments with only long names should have the short names

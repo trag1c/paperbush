@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from argparse import ArgumentParser, Namespace
+from collections.abc import Iterable
 from shlex import split
 from sys import argv
 from typing import Any, cast
@@ -11,8 +12,8 @@ from .parser import Argument, parse_argument, split_args
 
 class Paperbush:
     """
-    A Paperbush parser; takes a string pattern (or a list of patterns) written in the\
-    [Paperbush custom language](https://trag1c.github.io/paperbush/dsl/),\
+    A Paperbush parser; takes a string pattern (or an iterable of patterns) written in\
+    the [Paperbush custom language](https://trag1c.github.io/paperbush/dsl/),\
     an arbitrary number of\
     [reference values](https://trag1c.github.io/paperbush/dsl/#value-references),
     and the `infer_names` flag which specifies whether arguments with only long names
@@ -22,7 +23,7 @@ class Paperbush:
     __slots__ = ("args", "_parser", "_infer_names", "_values", "pattern")
 
     def __init__(
-        self, pattern: str | list[str], *values: Any, infer_names: bool = True
+        self, pattern: str | Iterable[str], *values: Any, infer_names: bool = True
     ) -> None:
         self.pattern = pattern
         self.args: list[Argument | tuple[Argument, ...]] = []
@@ -51,9 +52,9 @@ class Paperbush:
         args: list[Argument | str] = [
             parse_argument(arg, infer_name=self._infer_names, values=self._values)
             for arg in (
-                self.pattern
-                if isinstance(self.pattern, list)
-                else split_args(self.pattern)
+                split_args(self.pattern)
+                if isinstance(self.pattern, str)
+                else self.pattern
             )
         ]
 
