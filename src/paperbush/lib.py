@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from argparse import ArgumentParser, Namespace
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
+from json import loads
 from shlex import split
 from sys import argv
 from typing import Any, cast
@@ -20,17 +21,49 @@ class Paperbush:
     should have the short names inferred (`True` by default).
     """
 
-    __slots__ = ("args", "_parser", "_infer_names", "_values", "pattern")
+    __slots__ = ("arguments", "_help", "_args", "_parser", "_infer_names", "_values")
+    arguments: list[Argument | tuple[Argument, ...]]
+    _help: Mapping[str, str]
 
-    def __init__(
-        self, pattern: str | Iterable[str], *values: Any, infer_names: bool = True
-    ) -> None:
-        self.pattern = pattern
-        self.args: list[Argument | tuple[Argument, ...]] = []
-        self._parser = ArgumentParser(add_help=False)
-        self._infer_names = infer_names
-        self._values = list(values)
+    def __new__(cls, _pattern, *values: Any, infer_names: bool = True) -> Paperbush:
+        inst = super().__new__(cls)
+        inst.arguments = []
+        inst._parser = ArgumentParser(add_help=False)
+        inst._infer_names = infer_names
+        inst._values = list(values)
+        return inst
+
+    def __init__(self, pattern: str, *_values, _infer_names=True) -> None:
+        self._args = split_args(pattern)
+        self._help = {}
         self._translate()
+
+    @classmethod
+    def from_iterable(
+        cls, iterable: Iterable[str], *values: Any, infer_names: bool = True
+    ) -> Paperbush:
+        inst = Paperbush.__new__(cls, "", *values, infer_names=infer_names)
+        inst._args = iterable
+        inst._help = {}
+        inst._translate()
+        return inst
+
+    @classmethod
+    def from_mapping(
+        cls, mapping: Mapping[str, str], *values: Any, infer_names: bool = True
+    ) -> Paperbush:
+        inst = Paperbush.__new__(cls, "", *values, infer_names=infer_names)
+        inst._parser = ArgumentParser()
+        inst._args = mapping.keys()
+        inst._help = mapping
+        inst._translate()
+        return inst
+
+    @classmethod
+    def from_json(
+        cls, json_string: str, *values: Any, infer_names: bool = True
+    ) -> Paperbush:
+        return cls.from_mapping(loads(json_string), *values, infer_names=infer_names)
 
     def parse_args(self) -> Namespace:
         """
@@ -51,11 +84,7 @@ class Paperbush:
     def _translate(self) -> None:
         args: list[Argument | str] = [
             parse_argument(arg, infer_name=self._infer_names, values=self._values)
-            for arg in (
-                split_args(self.pattern)
-                if isinstance(self.pattern, str)
-                else self.pattern
-            )
+            for arg in self._args
         ]
 
         if not args:
@@ -65,7 +94,7 @@ class Paperbush:
         group_indexes = merge_group_indexes(
             [(i - 1, i + 1) for i, v in enumerate(args) if v == "^"]
         )
-        self.args = grouped_args = group_args(args, group_indexes)
+        self.arguments = grouped_args = group_args(args, group_indexes)
         for arg_or_args in grouped_args:
             if isinstance(arg_or_args, tuple):
                 args_ = arg_or_args
@@ -74,10 +103,14 @@ class Paperbush:
                     if arg.required:
                         group.required = True
                         arg.required = False
-                    group.add_argument(*arg, **arg.kwargs)
+                    group.add_argument(
+                        *arg, **arg.kwargs, help=self._help.get(arg.pattern)
+                    )
             else:
                 arg = arg_or_args
-                self._parser.add_argument(*arg, **arg.kwargs)
+                self._parser.add_argument(
+                    *arg, **arg.kwargs, help=self._help.get(arg.pattern)
+                )
 
 
 def are_xors_correctly_placed(args: list[Argument | str]) -> bool:
