@@ -56,6 +56,9 @@ class Argument:
         self._short = short
         self.type_ = type_
 
+    def __hash__(self) -> int:
+        return hash(tuple(self))
+
     @property
     def action(self) -> Action | None:
         return self._action
