@@ -25,11 +25,11 @@ $ pip install paperbush
 - default values
 - required arguments
 - type conversion
+- help messages
 
 ## Known Limitations
 Currently Paperbush has no support for:
 - aliases
-- help messages
 - subparsers
 
 ## License
