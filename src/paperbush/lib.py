@@ -43,7 +43,7 @@ class Paperbush:
         cls, iterable: Iterable[str], *values: Any, infer_names: bool = True
     ) -> Paperbush:
         """
-        Creates a Paperbush parser from an iterable of arguments.
+        Creates a Paperbush parser from an iterable of patterns.
         Example: `Paperbush.from_iterable(["x!:int", "y:(3, 4, 5)=4"])` is equivalent to
         `Paperbush("x!:int y:(3, 4, 5)=4")`.
         """
@@ -58,7 +58,7 @@ class Paperbush:
         cls, mapping: Mapping[str, str], *values: Any, infer_names: bool = True
     ) -> Paperbush:
         """
-        Creates a Paperbush parser from a mapping, where keys are arguments and values
+        Creates a Paperbush parser from a mapping, where keys are patterns and values
         are help messages, e.g.
         `Paperbush.from_mapping({"x:int": "the base", "y:int", "the exponent"})`
         """
