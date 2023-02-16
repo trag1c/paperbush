@@ -10,7 +10,10 @@ specifies whether arguments with only long names should have the short names
 inferred (`True` by default).
 
 !!! warning
-    Keeping `infer_names` true is going to cause name collisions between arguments which start with the same letter (for example `Paperbush("--fix --force")`).
+    Keeping `infer_names` true is going to cause name collisions between
+    arguments which start with the same letter (for example
+    `Paperbush("--fix --force")`).
+
 
 ## Paperbush.parse
 
