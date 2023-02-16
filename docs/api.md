@@ -31,6 +31,38 @@ Creates a Paperbush parser from an iterable of patterns.
     assert a == b
     ```
 
+## Paperbush.from_mapping
+```py
+Paperbush.from_mapping(
+    mapping: Mapping[str, str],
+    *values: Any,
+    infer_names: bool = True
+)
+```
+Creates a Paperbush parser from a mapping, where keys are patterns and values
+are help messages.
+
+=== "argparse"
+
+    ```py
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument("x", type=int, help="the base")
+    parser.add_argument("y", type=int, help="the exponent")
+    ```
+
+=== "Paperbush"
+
+    ```py
+    from paperbush import Paperbush
+
+    parser = Paperbush.from_mapping({
+        "x:int": "the base",
+        "y:int": "the exponent"
+    })
+    ```
+
 ## Paperbush.parse
 
 ```py
