@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "paperbush"
-version = "0.1.0"
+version = "0.2.0"
 description = "Dead easy argument parsing"
 authors = ["trag1c <trag1cdev@yahoo.com>"]
 license = "MIT"
