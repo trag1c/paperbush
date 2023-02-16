@@ -17,7 +17,7 @@ inferred (`True` by default).
 ## Paperbush.parse
 
 ```py
-Paperbush.parse(args: str | list[str]) -> argparse.Namespace
+Paperbush.parse(self, args: str | list[str]) -> argparse.Namespace
 ```
 
 Parses command line arguments using the predefined pattern and returns an
@@ -29,6 +29,6 @@ with [`shlex.split`](https://docs.python.org/3/library/shlex.html#shlex.split)).
 ## Paperbush.parse_args
 
 ```py
-Paperbush.parse_args() -> argparse.Namespace
+Paperbush.parse_args(self) -> argparse.Namespace
 ```
 Equivalent to `Paperbush.parse(sys.argv)`.
