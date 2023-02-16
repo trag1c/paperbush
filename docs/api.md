@@ -1,5 +1,3 @@
-Paperbush's public API consists of just one class with 2 methods.
-
 ## Paperbush
 
 ```py
