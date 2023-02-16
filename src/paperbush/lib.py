@@ -13,9 +13,9 @@ from .parser import Argument, parse_argument, split_args
 
 class Paperbush:
     """
-    A Paperbush parser; takes a string pattern (or an iterable of patterns) written in\
-    the [Paperbush custom language](https://trag1c.github.io/paperbush/dsl/),\
-    an arbitrary number of\
+    A Paperbush parser; takes a string pattern written in\
+    the [Paperbush custom language](https://trag1c.github.io/paperbush/dsl/),
+    an arbitrary number of
     [reference values](https://trag1c.github.io/paperbush/dsl/#value-references),
     and the `infer_names` flag which specifies whether arguments with only long names
     should have the short names inferred (`True` by default).
@@ -42,6 +42,11 @@ class Paperbush:
     def from_iterable(
         cls, iterable: Iterable[str], *values: Any, infer_names: bool = True
     ) -> Paperbush:
+        """
+        Creates a Paperbush parser from an iterable of arguments.
+        Example: `Paperbush.from_iterable(["x!:int", "y:(3, 4, 5)=4"])` is equivalent to
+        `Paperbush("x!:int y:(3, 4, 5)=4")`.
+        """
         inst = Paperbush.__new__(cls, "", *values, infer_names=infer_names)
         inst._args = iterable
         inst._help = {}
@@ -52,6 +57,11 @@ class Paperbush:
     def from_mapping(
         cls, mapping: Mapping[str, str], *values: Any, infer_names: bool = True
     ) -> Paperbush:
+        """
+        Creates a Paperbush parser from a mapping, where keys are arguments and values
+        are help messages, e.g.
+        `Paperbush.from_mapping({"x:int": "the base", "y:int", "the exponent"})`
+        """
         inst = Paperbush.__new__(cls, "", *values, infer_names=infer_names)
         inst._parser = ArgumentParser()
         inst._args = mapping.keys()
@@ -63,6 +73,10 @@ class Paperbush:
     def from_json(
         cls, json_string: str, *values: Any, infer_names: bool = True
     ) -> Paperbush:
+        """
+        Creates a Paperbush parser from JSON string. `Paperbush.from_json(json)`
+        is equivalent to `Paperbush.from_mapping(json.loads(json))`
+        """
         return cls.from_mapping(loads(json_string), *values, infer_names=infer_names)
 
     def parse_args(self) -> Namespace:
