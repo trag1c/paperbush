@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from argparse import ArgumentParser, Namespace
 from collections.abc import Iterable, Mapping
-from json import loads
 from shlex import split
 from sys import argv
 from typing import Any, cast
@@ -73,16 +72,6 @@ class Paperbush:
         inst._help = mapping
         inst._translate()
         return inst
-
-    @classmethod
-    def from_json(
-        cls, json_string: str, *values: Any, infer_names: bool = True
-    ) -> Paperbush:
-        """
-        Creates a Paperbush parser from JSON string. `Paperbush.from_json(json)`
-        is equivalent to `Paperbush.from_mapping(json.loads(json))`
-        """
-        return cls.from_mapping(loads(json_string), *values, infer_names=infer_names)
 
     def parse_args(self) -> Namespace:
         """
