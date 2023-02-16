@@ -38,6 +38,11 @@ class Paperbush:
         self._help = {}
         self._translate()
 
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, Paperbush):
+            return self.arguments == other.arguments
+        return NotImplemented
+
     @classmethod
     def from_iterable(
         cls, iterable: Iterable[str], *values: Any, infer_names: bool = True
