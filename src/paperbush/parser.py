@@ -59,6 +59,11 @@ class Argument:
     def __hash__(self) -> int:
         return hash(tuple(self))
 
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, Argument):
+            return hash(self) == hash(other)
+        return NotImplemented
+
     @property
     def action(self) -> Action | None:
         return self._action
