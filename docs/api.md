@@ -15,6 +15,22 @@ inferred (`True` by default).
     `Paperbush("--fix --force")`).
 
 
+## Paperbush.from_iterable
+```py
+Paperbush.from_iterable(
+    iterable: Iterable[str],
+    *values: Any,
+    infer_names: bool = True
+)
+```
+Creates a Paperbush parser from an iterable of patterns.
+!!! example
+    ```py
+    a = Paperbush.from_iterable(["x:int", "y:(3, 4, 5)=4"])
+    b = Paperbush("x:int y:(3, 4, 5)=4")
+    assert a == b
+    ```
+
 ## Paperbush.parse
 
 ```py
