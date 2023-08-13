@@ -1,7 +1,7 @@
 site_name: Paperbush Documentation
 repo_url: https://github.com/trag1c/paperbush
 repo_name: trag1c/paperbush
-copyright: Copyright &copy; 2023 trag1c
+copyright: Copyright &copy; 2022–2023 trag1c
 nav:
   - Home: index.md
   - Examples: examples.md
