@@ -7,14 +7,54 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+crossandra = "^2.0.0"
 
-[tool.poetry.dev-dependencies]
-black = "^22.12.0"
-isort = "^5.11.2"
-ruff = "^0.0.182"
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+pytest = "^7.4.0"
+mkdocs = "^1.5.2"
+mkdocs-material = "^9.1.21"
+ruff = "^0.0.284"
+mypy = "^1.5.0"
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+target-version = "py38"
+select = [
+    "A",
+    "ANN",
+    "ARG",
+    "B",
+    "BLE",
+    "C",
+    "E",
+    "ERA",
+    "F",
+    "FBT",
+    "I",
+    "ISC",
+    "N",
+    "PIE",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "SLF",
+    "TCH",
+    "TRY",
+    "UP",
+    "W",
+]
+ignore = [
+    "ANN101",
+    "ANN102",
+    "ANN401",
+    "RUF001",
+    "RUF002",
+    "RUF003",
+    "TRY003",
+]
+exclude = ["tests"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
